@@ -1,0 +1,41 @@
+# 這個檔案要放在 repo 的 .github/workflows/update-pubs.yml
+# 功能:每週一自動執行 fetch_pubmed_bib.py,並把更新後的 kuo_sh.bib 自動 commit 回這個 repo
+
+name: Update PubMed Publications
+
+on:
+  schedule:
+    # 每週一 UTC 06:00 (台灣時間週一下午 14:00) 自動執行一次
+    - cron: '0 6 * * 1'
+  # 允許在 GitHub 網頁上手動點按鈕觸發,方便測試
+  workflow_dispatch:
+
+# 讓這個 workflow 有權限把變更 push 回 repo
+permissions:
+  contents: write
+
+jobs:
+  update-bib:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch PubMed publications
+        run: python fetch_pubmed_bib.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add kuo_sh.bib
+          git diff --quiet && git diff --staged --quiet || git commit -m "自動更新 PubMed 著作列表"
+          git push
