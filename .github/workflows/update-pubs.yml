@@ -1,16 +1,16 @@
 # Function: Automatically runs fetch_pubmed_bib.py every Monday and commits the updated kuo_sh.bib back to this repository.
+
 name: Update PubMed Publications
 
 on:
   schedule:
-    - cron: '27 16 * * *'
-#chicago 11:00 am everyday
+    - cron: '*/5 * * * *'
 
   workflow_dispatch:
 
 permissions:
   contents: write
-
+  
 jobs:
   update-bib:
     runs-on: ubuntu-latest
