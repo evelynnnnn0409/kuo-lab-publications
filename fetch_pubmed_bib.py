@@ -13,7 +13,7 @@ Manual local testing (optional, not required):
 import re
 import time
 import xml.etree.ElementTree as ET
-import pandas as pd
+
 import requests
 
 # ---------------------------------------------------------------------------
