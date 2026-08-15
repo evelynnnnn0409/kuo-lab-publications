@@ -1,1 +1,49 @@
+# Function: Automatically runs fetch_pubmed_bib.py
+# and commits the updated kuo_sh.bib back to this repository.
 
+name: Update PubMed Publications
+
+on:
+  # TEMPORARY TEST:
+  # Run every 5 minutes to verify GitHub's scheduler works.
+  schedule:
+    - cron: '*/5 * * * *'
+
+  # Allows manual testing from the GitHub Actions page.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-bib:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch PubMed publications
+        run: python fetch_pubmed_bib.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add kuo_sh.bib
+
+          if git diff --staged --quiet; then
+            echo "No publication changes detected."
+          else
+            git commit -m "Auto update PubMed publication list"
+            git push
+          fi
