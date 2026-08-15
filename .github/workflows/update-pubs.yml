@@ -3,7 +3,7 @@ name: Update PubMed Publications
 
 on:
   schedule:
-    - cron: '0 16 * * *'
+    - cron: '27 16 * * *'
 #chicago 11:00 am everyday
 
   workflow_dispatch:
