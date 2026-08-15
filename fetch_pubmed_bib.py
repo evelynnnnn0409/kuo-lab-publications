@@ -16,7 +16,7 @@ import xml.etree.ElementTree as ET
 
 import requests
 
-# ---------------------------------------------------------------------------
+ ---------------------------------------------------------------------------
 # SETTINGS — this is the only section you should need to edit
 # ---------------------------------------------------------------------------
 
@@ -26,8 +26,7 @@ import requests
 #   [Full Author Name] -> full spelled-out name, "Lastname, Firstname"
 
 AUTHOR_NAME = (
-    'Kuo SH[Author] '
-    'OR "Kuo, Sheng-Han"[Full Author Name]'
+    '"Kuo, Sheng-Han"[Full Author Name]'
     'OR "Sheng-Han, Kuo"[Full Author Name]'
 )
 
@@ -35,8 +34,7 @@ AUTHOR_NAME = (
 # This field holds people credited as contributors to a large multi-site
 # consortium study without being listed as a formal paper "Author".
 INVESTIGATOR_NAME = (
-    'Kuo SH[Investigator] '
-    'OR "Kuo, Sheng-Han"[Full Investigator Name]'
+    '"Kuo, Sheng-Han"[Full Investigator Name]'
     'OR "Sheng-Han, Kuo"[Full Investigator Name]'
 )
 
@@ -80,10 +78,12 @@ TOPIC_OR_AFFILIATION = (
 #   Branch A: listed as a formal Author AND topic/affiliation checks out
 #   Branch B: listed as an Investigator/Collaborator AND topic/affiliation checks out
 #   Branch C: has the ORCID attached (trusted on its own, no extra AND needed)
+#   Branch D: PMID 29369793 use SH Kuo instead of full name
 QUERY = (
     f'(({AUTHOR_NAME}) AND ({TOPIC_OR_AFFILIATION})) '
     f'OR (({INVESTIGATOR_NAME}) AND ({TOPIC_OR_AFFILIATION})) '
-    f'OR ({ORCID})'
+    f'OR ({ORCID}) '
+    f'OR (29369793[PMID])'
 )
 
 # NCBI requires a contact email for API usage (not publicly displayed —
