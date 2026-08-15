@@ -7,7 +7,8 @@ on:
   # TEMPORARY TEST:
   # Run every 5 minutes to verify GitHub's scheduler works.
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 21 1 * *'  
+    # 1st of every month, 4:00 PM Chicago (CDT)
 
   # Allows manual testing from the GitHub Actions page.
   workflow_dispatch:
